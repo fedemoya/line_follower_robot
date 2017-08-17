@@ -1,7 +1,5 @@
-/* Copyright 2017, Gustavo Muro
+/* Copyright 2014, Your Name <youremail@domain.com>
  * All rights reserved.
- *
- * This file is part of CIAA Firmware.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,57 +29,25 @@
  *
  */
 
-/** \brief source para MCU
+/** \brief Short description of this file
  **
- ** archivo de inicilización del microcontrolador
+ ** Long description of this file
  **
  **/
 
-/** \addtogroup PASE_APP_EXAMPLE
+/** \addtogroup project
  ** @{ */
-/** \addtogroup MCU
+/** \addtogroup module
  ** @{ */
 
 /*==================[inclusions]=============================================*/
-#include "board.h"
-#include "mcu.h"
+#include "board_pinout.h"
 
 /*==================[macros and definitions]=================================*/
 
-/*==================[internal data declaration]==============================*/
-
-static const mcu_gpio_pinId_enum ledGPIOMap[] =
-{
-   MCU_GPIO_PIN_ID_75,
-   MCU_GPIO_PIN_ID_81,
-   MCU_GPIO_PIN_ID_84,
-   MCU_GPIO_PIN_ID_104,
-   MCU_GPIO_PIN_ID_105,
-   MCU_GPIO_PIN_ID_106,
-};
-
-static const mcu_pwm_pinId_enum ledPWMMap[] =
-{
-    [BOARD_LED_ID_1] = MCU_PWM_PIN_ID_104,
-    [BOARD_LED_ID_2] = MCU_PWM_PIN_ID_105,
-    [BOARD_LED_ID_3] = MCU_PWM_PIN_ID_106,
-};
-
-static const mcu_gpio_pinId_enum switchMap[] =
-{
-   MCU_GPIO_PIN_ID_38,
-   MCU_GPIO_PIN_ID_42,
-   MCU_GPIO_PIN_ID_43,
-   MCU_GPIO_PIN_ID_49,
-};
-
-static const mcu_pwm_pinId_enum gpioPWMMap[] =
-{
-        [BOARD_GPIO02] = MCU_PWM_PIN_ID_82,
-};
-
-static const int8_t totalLeds = sizeof(ledGPIOMap) / sizeof(ledGPIOMap[0]);
-static const int8_t totalSwitches = sizeof(switchMap) / sizeof(switchMap[0]);
+// SCT nº
+#define CTOUT2 2
+#define CTOUT6 6
 
 /*==================[internal functions declaration]=========================*/
 
@@ -93,53 +59,16 @@ static const int8_t totalSwitches = sizeof(switchMap) / sizeof(switchMap[0]);
 
 /*==================[external functions definition]==========================*/
 
-extern void board_init(void)
-{
-   int8_t i;
+int8_t Board_Pin2Sct(uint8_t pin) {
 
-   for (i = 0 ; i < totalLeds ; i++)
-   {
-      mcu_gpio_setDirection(ledGPIOMap[i], MCU_GPIO_DIRECTION_OUTPUT);
-   }
-
-   for (i = 0 ; i < totalSwitches ; i++)
-   {
-      mcu_gpio_setDirection(switchMap[i], MCU_GPIO_DIRECTION_INPUT);
-   }
-}
-
-extern void board_ledToggle(board_ledId_enum id)
-{
-   mcu_gpio_toggleOut(ledGPIOMap[id]);
-}
-
-extern void board_ledSet(board_ledId_enum id, board_ledState_enum state)
-{
-   mcu_gpio_setOut(ledGPIOMap[id], state == BOARD_LED_STATE_ON);
-}
-
-extern void board_enableLedIntensity(board_ledId_enum id) {
-    mcu_pwm_init();
-    mcu_pwm_enable(ledPWMMap[id]);
-}
-
-extern void board_ledSetIntensity(board_ledId_enum id, uint8_t intensity) {
-    mcu_pwm_write(ledPWMMap[id], intensity);
-}
-
-extern void board_enableGPIOIntensity(board_gpioId_enum id) {
-    mcu_pwm_init();
-    mcu_pwm_enable(ledPWMMap[id]);
-}
-
-extern void board_gpioSetIntensity(board_gpioId_enum id, uint8_t intensity) {
-    mcu_pwm_write(ledPWMMap[id], intensity);
-}
-
-extern board_switchState_enum board_switchGet(board_switchId_enum id)
-{
-   return (mcu_gpio_readPin(switchMap[id])?BOARD_TEC_NON_PRESSED:
-                                           BOARD_TEC_PRESSED);
+    switch (pin) {
+        case LED1:
+            return CTOUT2;
+        case GPIO2:
+            return CTOUT6;
+        default:
+            return -1;
+    }
 }
 
 

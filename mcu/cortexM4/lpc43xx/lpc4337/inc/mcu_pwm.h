@@ -56,6 +56,7 @@ typedef enum
    MCU_PWM_PIN_ID_104 = 0,
    MCU_PWM_PIN_ID_105,
    MCU_PWM_PIN_ID_106,
+   MCU_PWM_PIN_ID_82
 }mcu_pwm_pinId_enum;
 
 /*==================[external data declaration]==============================*/

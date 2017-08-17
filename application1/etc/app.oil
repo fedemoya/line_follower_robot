@@ -55,7 +55,7 @@ OSEK OSEK {
    };
 
    APPMODE = AppMode1;
-
+   
    TASK InitTask {
       PRIORITY = 100;
       ACTIVATION = 1;
@@ -66,104 +66,25 @@ OSEK OSEK {
       TYPE = EXTENDED;
       SCHEDULE = NON;
    }
-   
-   TASK IncDecIntensityTask {
+
+   TASK TestTask {
       PRIORITY = 10;
       ACTIVATION = 1;
       STACK = 512;
       TYPE = BASIC;
       SCHEDULE = FULL;
-      RESOURCE = MessageQueueAccess;
    }
    
-   TASK CheckSwitchTask {
-      PRIORITY = 5;
-      ACTIVATION = 1;
-      STACK = 512;
-      TYPE = BASIC;
-      SCHEDULE = FULL;
-      RESOURCE = MessageQueueAccess;
-   }
-   
-   TASK KeyboardTask {
-      PRIORITY = 3;
-      ACTIVATION = 1;
-      STACK = 512;
-      TYPE = BASIC;
-      SCHEDULE = FULL;
-   }
-   
-   TASK LogMessagesTask {
-      PRIORITY = 2;
-      ACTIVATION = 1;
-      STACK = 512;
-      TYPE = BASIC;
-      SCHEDULE = FULL;
-      RESOURCE = MessageQueueAccess;
-   }
-   
-   ALARM RunIncDecIntensityTask {
+   ALARM RunTestTask {
       COUNTER = HardwareCounter;
       AUTOSTART = TRUE {
          ALARMTIME = 0;
-         CYCLETIME = 250;
+         CYCLETIME = 500;
          APPMODE = AppMode1;
       }
       ACTION = ACTIVATETASK {
-         TASK = IncDecIntensityTask;
+         TASK = TestTask;
       }
-   }
-   
-   ALARM RunCheckSwitchTask {
-      COUNTER = HardwareCounter;
-      AUTOSTART = TRUE {
-         ALARMTIME = 0;
-         CYCLETIME = 100;
-         APPMODE = AppMode1;
-      }
-      ACTION = ACTIVATETASK {
-         TASK = CheckSwitchTask;
-      }
-   }
-   
-   ALARM RunLogMessagesTask {
-      COUNTER = HardwareCounter;
-      AUTOSTART = TRUE {
-         ALARMTIME = 0;
-         CYCLETIME = 100;
-         APPMODE = AppMode1;
-      }
-      ACTION = ACTIVATETASK {
-         TASK = LogMessagesTask;
-      }
-   }
-   
-   ALARM RunKeyboardTask {
-      COUNTER = HardwareCounter;
-      AUTOSTART = TRUE {
-         ALARMTIME = 0;
-         CYCLETIME = 2;
-         APPMODE = AppMode1;
-      }
-      ACTION = ACTIVATETASK {
-         TASK = KeyboardTask;
-      }
-   }
-   
-   ALARM RunCallBackIncreaseTimer {
-      COUNTER = HardwareCounter;
-      AUTOSTART = TRUE {
-         ALARMTIME = 1000;
-         CYCLETIME = 1000;
-         APPMODE = AppMode1;
-      };
-      ACTION = ALARMCALLBACK {
-         ALARMCALLBACKNAME = CallBackIncreaseTimer;
-      };
-   }
-   
-   RESOURCE MessageQueueAccess {
-        RESOURCEPROPERTY = STANDARD;
    }
    
    COUNTER HardwareCounter {

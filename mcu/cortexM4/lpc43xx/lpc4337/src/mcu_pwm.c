@@ -43,8 +43,6 @@
 
 /*==================[macros and definitions]=================================*/
 
-#define PWM_TOTALNUMBER   3
-
 #define PWM_FREC          1000 /* 1Khz */
 #define PWM_PERIOD        1000 /* 1000uS = 1ms*/
 
@@ -60,10 +58,11 @@
  * Since this module works with pwm numbers, but uses sct channels to generate
  * the signal, its necessary to connect pwm number with the SctMap_t.
  * This way the user sets "pwms", while using the sct peripheral internally*/
-static const SctMap_t pwmMap[PWM_TOTALNUMBER] = {
-   /* MCU_PWM_PIN_ID_104 */  CTOUT2,
-   /* MCU_PWM_PIN_ID_105 */  CTOUT5,
-   /* MCU_PWM_PIN_ID_106 */  CTOUT4,
+static const SctMap_t pwmMap[] = {
+    [MCU_PWM_PIN_ID_104] =  CTOUT2,
+   [MCU_PWM_PIN_ID_105] =  CTOUT5,
+   [MCU_PWM_PIN_ID_106] = CTOUT4,
+   [MCU_PWM_PIN_ID_82] =  CTOUT6,
 };
 
 /*==================[external data definition]===============================*/
@@ -77,11 +76,11 @@ void mcu_pwm_init() {
 }
 
 void mcu_pwm_enable(mcu_pwm_pinId_enum pin) {
-    Sct_EnablePwmFor(pwmMap[pin]);
+    Sct_EnablePwmFor(6);
 }
 
 void mcu_pwm_write(mcu_pwm_pinId_enum pin, uint8_t value ){
-    Sct_SetDutyCycle(pwmMap[pin], value);
+    Sct_SetDutyCycle(6, value);
 }
 
 /*==================[end of file]============================================*/

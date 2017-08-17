@@ -88,6 +88,11 @@ typedef enum
    BOARD_TEC_PRESSED,
 }board_switchState_enum;
 
+typedef enum
+{
+    BOARD_GPIO02 = 0,
+}board_gpioId_enum;
+
 /*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
@@ -97,6 +102,8 @@ extern void board_ledToggle(board_ledId_enum id);
 extern board_ledState_enum board_ledGet(board_ledId_enum id);
 extern void board_enableLedIntensity(board_ledId_enum id);
 extern void board_ledSetIntensity(board_ledId_enum id, uint8_t intensity);
+extern void board_enableGPIOIntensity(board_gpioId_enum id);
+extern void board_gpioSetIntensity(board_gpioId_enum id, uint8_t intensity);
 extern board_switchState_enum board_switchGet(board_switchId_enum id);
 /*==================[cplusplus]==============================================*/
 #ifdef __cplusplus
