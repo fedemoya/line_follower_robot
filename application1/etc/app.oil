@@ -43,7 +43,7 @@
 
 OSEK OSEK {
 
-   OS	PWM_LED_OS {
+   OS	LINE_TRACKER_OS  {
       STATUS = EXTENDED;
       ERRORHOOK = TRUE;
       PRETASKHOOK = FALSE;
@@ -67,95 +67,43 @@ OSEK OSEK {
       SCHEDULE = NON;
    }
 
-   TASK TurnRightTask {
-      PRIORITY = 10;
+   TASK KeyboardTask {
+      PRIORITY = 3;
       ACTIVATION = 1;
       STACK = 512;
       TYPE = BASIC;
       SCHEDULE = FULL;
    }
    
-   ALARM RunTurnRightTask {
+   ALARM RunKeyboardTask {
       COUNTER = HardwareCounter;
       AUTOSTART = TRUE {
-         ALARMTIME = 3000;
-         CYCLETIME = 0;
+         ALARMTIME = 0;
+         CYCLETIME = 2;
          APPMODE = AppMode1;
       }
       ACTION = ACTIVATETASK {
-         TASK = TurnRightTask;
+         TASK = KeyboardTask;
       }
    }
    
-   TASK GoStraightOnTask {
-      PRIORITY = 10;
+   TASK CheckSwitchTask {
+      PRIORITY = 5;
       ACTIVATION = 1;
       STACK = 512;
       TYPE = BASIC;
       SCHEDULE = FULL;
    }
    
-   ALARM RunGoStraightOnTask {
+   ALARM RunCheckSwitchTask {
       COUNTER = HardwareCounter;
       AUTOSTART = TRUE {
-         ALARMTIME = 4000;
-         CYCLETIME = 0;
+         ALARMTIME = 0;
+         CYCLETIME = 100;
          APPMODE = AppMode1;
       }
       ACTION = ACTIVATETASK {
-         TASK = GoStraightOnTask;
-      }
-   }
-   
-   TASK TurnLeftTask {
-      PRIORITY = 10;
-      ACTIVATION = 1;
-      STACK = 512;
-      TYPE = BASIC;
-      SCHEDULE = FULL;
-   }
-   
-   ALARM RunTurnLeftTask {
-      COUNTER = HardwareCounter;
-      AUTOSTART = TRUE {
-         ALARMTIME = 7000;
-         CYCLETIME = 0;
-         APPMODE = AppMode1;
-      }
-      ACTION = ACTIVATETASK {
-         TASK = TurnLeftTask;
-      }
-   }
-   
-   ALARM RunAgainGoStraightOnTask {
-      COUNTER = HardwareCounter;
-      AUTOSTART = TRUE {
-         ALARMTIME = 8000;
-         CYCLETIME = 0;
-         APPMODE = AppMode1;
-      }
-      ACTION = ACTIVATETASK {
-         TASK = GoStraightOnTask;
-      }
-   }
-   
-   TASK StopTask {
-      PRIORITY = 10;
-      ACTIVATION = 1;
-      STACK = 512;
-      TYPE = BASIC;
-      SCHEDULE = FULL;
-   }
-   
-   ALARM RunStopTask {
-      COUNTER = HardwareCounter;
-      AUTOSTART = TRUE {
-         ALARMTIME = 11000;
-         CYCLETIME = 0;
-         APPMODE = AppMode1;
-      }
-      ACTION = ACTIVATETASK {
-         TASK = StopTask;
+         TASK = CheckSwitchTask;
       }
    }
    

@@ -8,10 +8,18 @@
 
 #include "board_pinout.h"
 #include "bsp.h"
-//#include "line_tracker_sensor.h"
+#include "bsp_keyboard.h"
+#include "line_tracker_sensor.h"
 #include "driver.h"
 
 /*==================[macros and definitions]=================================*/
+
+typedef enum {STARTED, STOPPED} state_status_type;
+
+typedef struct
+{
+    state_status_type status;
+} state_type;
 
 /*==================[internal data declaration]==============================*/
 
@@ -20,6 +28,11 @@
 /*==================[internal data definition]===============================*/
 
 /*==================[external data definition]===============================*/
+
+// Initial state
+state_type appState = {
+        STOPPED
+};
 
 /*==================[internal functions definition]==========================*/
 
@@ -66,31 +79,26 @@ void ErrorHook(void)
 TASK(InitTask)
 {
     bsp_init();
-    Driver_Start(GPIO2, GPIO8);
+    bsp_keyboardInit();
     TerminateTask();
 }
 
-TASK(TurnRightTask) {
-    Driver_TurnRight(GPIO2, GPIO8);
-    Driver_TurnRight(GPIO2, GPIO8);
-    Driver_TurnRight(GPIO2, GPIO8);
+TASK(CheckSwitchTask)
+{
+
+    board_switchId_enum tec = bsp_keyboardGet();
+    if (tec == BOARD_TEC_ID_1 && appState.status == STOPPED) {
+        appState.status = STARTED;
+        Driver_Start(GPIO2, GPIO8);
+    } else if (tec == BOARD_TEC_ID_1 && appState.status == STARTED) {
+        appState.status = STOPPED;
+        Driver_Stop(GPIO2, GPIO8);
+    }
     TerminateTask();
 }
 
-TASK(GoStraightOnTask) {
-    Driver_GoStraightOn(GPIO2, GPIO8);
-    TerminateTask();
-}
-
-TASK(TurnLeftTask) {
-    Driver_TurnLeft(GPIO2, GPIO8);
-    Driver_TurnLeft(GPIO2, GPIO8);
-    Driver_TurnLeft(GPIO2, GPIO8);
-    TerminateTask();
-}
-
-TASK(StopTask) {
-    Driver_Stop(GPIO2, GPIO8);
+TASK(KeyboardTask) {
+    bsp_keyboard_task();
     TerminateTask();
 }
 
