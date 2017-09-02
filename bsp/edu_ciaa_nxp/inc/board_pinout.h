@@ -18,6 +18,12 @@
 #define GPIO1 80
 #define GPIO2 82
 #define GPIO3 85
+#define GPIO4 86
+#define GPIO5 97
+#define GPIO6 100
+#define GPIO7 101
+#define GPIO8 103
 // TODO: Add the missing pins.
 
 int8_t Board_Pin2Sct(uint8_t);
+int8_t Board_Pin2GPIO(uint8_t);

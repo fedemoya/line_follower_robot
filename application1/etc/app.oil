@@ -67,7 +67,7 @@ OSEK OSEK {
       SCHEDULE = NON;
    }
 
-   TASK TestTask {
+   TASK TurnRightTask {
       PRIORITY = 10;
       ACTIVATION = 1;
       STACK = 512;
@@ -75,20 +75,92 @@ OSEK OSEK {
       SCHEDULE = FULL;
    }
    
-   ALARM RunTestTask {
+   ALARM RunTurnRightTask {
       COUNTER = HardwareCounter;
       AUTOSTART = TRUE {
-         ALARMTIME = 0;
-         CYCLETIME = 500;
+         ALARMTIME = 3000;
+         CYCLETIME = 0;
          APPMODE = AppMode1;
       }
       ACTION = ACTIVATETASK {
-         TASK = TestTask;
+         TASK = TurnRightTask;
+      }
+   }
+   
+   TASK GoStraightOnTask {
+      PRIORITY = 10;
+      ACTIVATION = 1;
+      STACK = 512;
+      TYPE = BASIC;
+      SCHEDULE = FULL;
+   }
+   
+   ALARM RunGoStraightOnTask {
+      COUNTER = HardwareCounter;
+      AUTOSTART = TRUE {
+         ALARMTIME = 4000;
+         CYCLETIME = 0;
+         APPMODE = AppMode1;
+      }
+      ACTION = ACTIVATETASK {
+         TASK = GoStraightOnTask;
+      }
+   }
+   
+   TASK TurnLeftTask {
+      PRIORITY = 10;
+      ACTIVATION = 1;
+      STACK = 512;
+      TYPE = BASIC;
+      SCHEDULE = FULL;
+   }
+   
+   ALARM RunTurnLeftTask {
+      COUNTER = HardwareCounter;
+      AUTOSTART = TRUE {
+         ALARMTIME = 7000;
+         CYCLETIME = 0;
+         APPMODE = AppMode1;
+      }
+      ACTION = ACTIVATETASK {
+         TASK = TurnLeftTask;
+      }
+   }
+   
+   ALARM RunAgainGoStraightOnTask {
+      COUNTER = HardwareCounter;
+      AUTOSTART = TRUE {
+         ALARMTIME = 8000;
+         CYCLETIME = 0;
+         APPMODE = AppMode1;
+      }
+      ACTION = ACTIVATETASK {
+         TASK = GoStraightOnTask;
+      }
+   }
+   
+   TASK StopTask {
+      PRIORITY = 10;
+      ACTIVATION = 1;
+      STACK = 512;
+      TYPE = BASIC;
+      SCHEDULE = FULL;
+   }
+   
+   ALARM RunStopTask {
+      COUNTER = HardwareCounter;
+      AUTOSTART = TRUE {
+         ALARMTIME = 11000;
+         CYCLETIME = 0;
+         APPMODE = AppMode1;
+      }
+      ACTION = ACTIVATETASK {
+         TASK = StopTask;
       }
    }
    
    COUNTER HardwareCounter {
-      MAXALLOWEDVALUE = 1000;
+      MAXALLOWEDVALUE = 20000;
       TICKSPERBASE = 1;
       MINCYCLE = 1;
       TYPE = HARDWARE;

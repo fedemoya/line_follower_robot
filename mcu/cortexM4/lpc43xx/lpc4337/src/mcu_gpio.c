@@ -88,6 +88,15 @@ static const p_gpio_type p_gpio[] =
    {{1,1},   {0,8},   FUNC0},
    {{1,2},   {0,9},   FUNC0},
    {{1,6},   {1,9},   FUNC0},
+   {{6,1},   {3,0},   FUNC0},
+   {{6,4},   {3,3},   FUNC0},
+   {{6,5},   {3,4},   FUNC0},
+   {{6,7},   {5,15},  FUNC4},
+   {{6,8},   {5,16},  FUNC4},
+   {{6,9},   {3,5},   FUNC0},
+   {{6,10},  {3,6},   FUNC0},
+   {{6,11},  {3,7},   FUNC0},
+   {{6,12},  {2,8},   FUNC0}
 };
 
 static eventsInputs_type eventsInputs[MCU_GPIO_IN_EVENT_TOTAL];

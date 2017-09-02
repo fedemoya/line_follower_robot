@@ -41,8 +41,11 @@
  ** @{ */
 
 /*==================[inclusions]=============================================*/
-#include "board_pinout.h"
+#include <stdbool.h>
 
+#include "line_tracker_sensor.h"
+
+#include "board_pinout.h"
 #include "mcu_sct.h"
 #include "mcu_gpio.h"
 
@@ -58,32 +61,28 @@
 
 /*==================[external functions definition]==========================*/
 
-int8_t Board_Pin2Sct(uint8_t pin) {
+bool LineTrackerSensor_Init(uint8_t pin) {
 
-    switch (pin) {
-        case LED1:
-            return CTOUT2;
-        case GPIO2:
-            return CTOUT6;
-        case GPIO8:
-            return CTOUT7;
-        default:
-            return -1;
+    int8_t gpio_pin = Board_Pin2GPIO(pin);
+
+    if (gpio_pin >= 0) {
+        mcu_gpio_init();
+        mcu_gpio_setDirection(gpio_pin, MCU_GPIO_DIRECTION_INPUT);
     }
 }
 
-int8_t Board_Pin2GPIO(uint8_t pin) {
+bool LineTrackerSensor_LineTouched(uint8_t pin) {
 
-    switch (pin) {
-        case GPIO5:
-            return MCU_GPIO_PIN_ID_97;
-        case GPIO6:
-            return MCU_GPIO_PIN_ID_100;
-        default:
-            return -1;
+    bool touched = false;
+
+    int8_t gpio_pin = Board_Pin2GPIO(pin);
+
+    if (gpio_pin >= 0) {
+        touched = mcu_gpio_readPin(gpio_pin);
     }
-}
 
+    return touched;
+}
 
 /** @} doxygen end group definition */
 /** @} doxygen end group definition */

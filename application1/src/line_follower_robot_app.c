@@ -2,11 +2,14 @@
 
 /*==================[inclusions]=============================================*/
 
+//#include <stdbool.h>
+
 #include "os.h"
 
 #include "board_pinout.h"
-#include "bsp.h";
-#include "motor.h"
+#include "bsp.h"
+//#include "line_tracker_sensor.h"
+#include "driver.h"
 
 /*==================[macros and definitions]=================================*/
 
@@ -63,12 +66,31 @@ void ErrorHook(void)
 TASK(InitTask)
 {
     bsp_init();
-    Motor_Start(LED1);
+    Driver_Start(GPIO2, GPIO8);
     TerminateTask();
 }
 
-TASK(TestTask) {
-    Motor_IncreaseSpeed(LED1);
+TASK(TurnRightTask) {
+    Driver_TurnRight(GPIO2, GPIO8);
+    Driver_TurnRight(GPIO2, GPIO8);
+    Driver_TurnRight(GPIO2, GPIO8);
+    TerminateTask();
+}
+
+TASK(GoStraightOnTask) {
+    Driver_GoStraightOn(GPIO2, GPIO8);
+    TerminateTask();
+}
+
+TASK(TurnLeftTask) {
+    Driver_TurnLeft(GPIO2, GPIO8);
+    Driver_TurnLeft(GPIO2, GPIO8);
+    Driver_TurnLeft(GPIO2, GPIO8);
+    TerminateTask();
+}
+
+TASK(StopTask) {
+    Driver_Stop(GPIO2, GPIO8);
     TerminateTask();
 }
 

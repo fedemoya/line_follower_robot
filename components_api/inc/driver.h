@@ -1,4 +1,4 @@
-/* Copyright 2014, Your Name <youremail@domain.com>
+/* Copyright 2017, Your Name <youremail@domain.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,62 +29,26 @@
  *
  */
 
-/** \brief Short description of this file
- **
- ** Long description of this file
- **
- **/
-
-/** \addtogroup project
- ** @{ */
-/** \addtogroup module
- ** @{ */
+#ifndef driver_H
+#define driver_H
 
 /*==================[inclusions]=============================================*/
-#include "board_pinout.h"
 
-#include "mcu_sct.h"
-#include "mcu_gpio.h"
+#include <stdint.h>
 
-/*==================[macros and definitions]=================================*/
+/*==================[macros]=================================================*/
 
-/*==================[internal functions declaration]=========================*/
+/*==================[typedef]================================================*/
 
-/*==================[internal data definition]===============================*/
+/*==================[external data declaration]==============================*/
 
-/*==================[external data definition]===============================*/
+/*==================[external functions declaration]=========================*/
 
-/*==================[internal functions definition]==========================*/
+void Driver_Start(uint8_t leftMotorPin, uint8_t rightMotorPin);
+void Driver_Stop(uint8_t leftMotorPin, uint8_t rightMotorPin);
+void Driver_TurnRight(uint8_t leftMotorPin, uint8_t rightMotorPin);
+void Driver_TurnLeft(uint8_t leftMotorPin, uint8_t rightMotorPin);
+void Driver_GoStraightOn(uint8_t leftMotorPin, uint8_t rightMotorPin);
 
-/*==================[external functions definition]==========================*/
-
-int8_t Board_Pin2Sct(uint8_t pin) {
-
-    switch (pin) {
-        case LED1:
-            return CTOUT2;
-        case GPIO2:
-            return CTOUT6;
-        case GPIO8:
-            return CTOUT7;
-        default:
-            return -1;
-    }
-}
-
-int8_t Board_Pin2GPIO(uint8_t pin) {
-
-    switch (pin) {
-        case GPIO5:
-            return MCU_GPIO_PIN_ID_97;
-        case GPIO6:
-            return MCU_GPIO_PIN_ID_100;
-        default:
-            return -1;
-    }
-}
-
-
-/** @} doxygen end group definition */
-/** @} doxygen end group definition */
 /*==================[end of file]============================================*/
+#endif /* #ifndef driver_H */

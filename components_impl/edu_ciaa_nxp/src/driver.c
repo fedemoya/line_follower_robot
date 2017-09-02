@@ -29,26 +29,17 @@
  *
  */
 
-/** \brief Short description of this file
- **
- ** Long description of this file
- **
- **/
-
-/** \addtogroup project
- ** @{ */
-/** \addtogroup module
- ** @{ */
 
 /*==================[inclusions]=============================================*/
-#include "board_pinout.h"
-
-#include "mcu_sct.h"
-#include "mcu_gpio.h"
+#include "driver.h"
+#include "motor.h"
 
 /*==================[macros and definitions]=================================*/
 
 /*==================[internal functions declaration]=========================*/
+
+MotorSpeed leftMotorSpeed;
+MotorSpeed rightMotorSpeed;
 
 /*==================[internal data definition]===============================*/
 
@@ -58,33 +49,53 @@
 
 /*==================[external functions definition]==========================*/
 
-int8_t Board_Pin2Sct(uint8_t pin) {
+void Driver_Start(uint8_t leftMotorPin, uint8_t rightMotorPin) {
+    Motor_Init(leftMotorPin);
+    Motor_Init(rightMotorPin);
+    leftMotorSpeed = SPEED_8;
+    rightMotorSpeed = SPEED_8;
+    Motor_SetSpeed(leftMotorSpeed, leftMotorPin);
+    Motor_SetSpeed(rightMotorSpeed, rightMotorPin);
+}
 
-    switch (pin) {
-        case LED1:
-            return CTOUT2;
-        case GPIO2:
-            return CTOUT6;
-        case GPIO8:
-            return CTOUT7;
-        default:
-            return -1;
+void Driver_Stop(uint8_t leftMotorPin, uint8_t rightMotorPin) {
+    leftMotorSpeed = SPEED_0;
+    rightMotorSpeed = SPEED_0;
+    Motor_SetSpeed(leftMotorSpeed, leftMotorPin);
+    Motor_SetSpeed(rightMotorSpeed, rightMotorPin);
+}
+
+void Driver_TurnRight(uint8_t leftMotorPin, uint8_t rightMotorPin) {
+    if (rightMotorSpeed > 0) {
+        rightMotorSpeed -= 1;
+        Motor_SetSpeed(rightMotorSpeed, rightMotorPin);
     }
 }
 
-int8_t Board_Pin2GPIO(uint8_t pin) {
-
-    switch (pin) {
-        case GPIO5:
-            return MCU_GPIO_PIN_ID_97;
-        case GPIO6:
-            return MCU_GPIO_PIN_ID_100;
-        default:
-            return -1;
+void Driver_TurnLeft(uint8_t leftMotorPin, uint8_t rightMotorPin) {
+    if (leftMotorSpeed > 0) {
+        leftMotorSpeed -= 1;
+        Motor_SetSpeed(leftMotorSpeed, leftMotorPin);
     }
 }
 
+void Driver_GoStraightOn(uint8_t leftMotorPin, uint8_t rightMotorPin) {
 
-/** @} doxygen end group definition */
-/** @} doxygen end group definition */
+    if (leftMotorSpeed < rightMotorSpeed) {
+
+        do {
+            leftMotorSpeed += 1;
+        } while (leftMotorSpeed < rightMotorSpeed);
+        Motor_SetSpeed(leftMotorSpeed, leftMotorPin);
+
+    } else if (rightMotorSpeed < leftMotorSpeed) {
+
+        do {
+            rightMotorSpeed += 1;
+        } while (rightMotorSpeed < leftMotorSpeed);
+        Motor_SetSpeed(rightMotorSpeed, rightMotorPin);
+
+    }
+}
+
 /*==================[end of file]============================================*/

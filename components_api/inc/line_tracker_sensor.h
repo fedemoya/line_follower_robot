@@ -1,7 +1,5 @@
-/* Copyright 2017, Gustavo Muro
+/* Copyright 2017, Your Name <youremail@domain.com>
  * All rights reserved.
- *
- * This file is part of CIAA Firmware.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,86 +29,39 @@
  *
  */
 
-#ifndef MCU_GPIO_H
-#define MCU_GPIO_H
-/** \brief Header para MCU
+#ifndef line_tracker_sensor_H
+#define line_tracker_sensor_H
+
+#include <stdint.h>
+#include <stdbool.h>
+
+/** \brief Short description of this file
  **
- ** archivo de inicilización del microcontrolador
+ ** Long description of this file
  **
  **/
 
-/** \addtogroup PASE_APP_EXAMPLE
+/** \addtogroup project
  ** @{ */
-/** \addtogroup MCU GPIO
+/** \addtogroup module
  ** @{ */
 
 /*==================[inclusions]=============================================*/
-#include "stdbool.h"
-#include "stdint.h"
 
-/*==================[cplusplus]==============================================*/
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 /*==================[macros]=================================================*/
 
 /*==================[typedef]================================================*/
 
-typedef enum
-{
-   MCU_GPIO_PIN_ID_75 = 0,
-   MCU_GPIO_PIN_ID_81,
-   MCU_GPIO_PIN_ID_84,
-   MCU_GPIO_PIN_ID_104,
-   MCU_GPIO_PIN_ID_105,
-   MCU_GPIO_PIN_ID_106,
-   MCU_GPIO_PIN_ID_38,
-   MCU_GPIO_PIN_ID_42,
-   MCU_GPIO_PIN_ID_43,
-   MCU_GPIO_PIN_ID_49,
-   MCU_GPIO_PIN_ID_74,
-   MCU_GPIO_PIN_ID_80,
-   MCU_GPIO_PIN_ID_82,
-   MCU_GPIO_PIN_ID_85,
-   MCU_GPIO_PIN_ID_86,
-   MCU_GPIO_PIN_ID_97,
-   MCU_GPIO_PIN_ID_100,
-   MCU_GPIO_PIN_ID_101,
-   MCU_GPIO_PIN_ID_103,
-}mcu_gpio_pinId_enum;
-
-typedef enum
-{
-   MCU_GPIO_DIRECTION_INPUT = 0,
-   MCU_GPIO_DIRECTION_OUTPUT,
-}mcu_gpio_direction_enum;
-
-typedef enum
-{
-   MCU_GPIO_EVENT_TYPE_INPUT_FALLING_EDGE = 0,
-   MCU_GPIO_EVENT_TYPE_INPUT_RISING_EDGE,
-}mcu_gpio_eventTypeInput_enum;
-
-typedef void (*mcu_gpio_eventInput_callBack_type)(mcu_gpio_pinId_enum id, mcu_gpio_eventTypeInput_enum evType);
-
 /*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
-extern void mcu_gpio_init(void);
-extern void mcu_gpio_setDirection(mcu_gpio_pinId_enum id, mcu_gpio_direction_enum dir);
-extern void mcu_gpio_setOut(mcu_gpio_pinId_enum id, bool state);
-extern void mcu_gpio_toggleOut(mcu_gpio_pinId_enum id);
-extern bool mcu_gpio_readPin(mcu_gpio_pinId_enum id);
-extern int32_t mcu_gpio_setEventInput(mcu_gpio_pinId_enum id,
-                                      mcu_gpio_eventTypeInput_enum evType,
-                                      mcu_gpio_eventInput_callBack_type cb);
-/*==================[cplusplus]==============================================*/
-#ifdef __cplusplus
-}
-#endif
+
+bool LineTrackerSensor_Init(uint8_t pin);
+bool LineTrackerSensor_LineTouched(uint8_t pin);
+
+
 /** @} doxygen end group definition */
 /** @} doxygen end group definition */
 /*==================[end of file]============================================*/
-#endif /* #ifndef MCU_GPIO_H */
-
+#endif /* #ifndef line_tracker_sensor_H */
