@@ -75,6 +75,14 @@ int8_t Board_Pin2Sct(uint8_t pin) {
 int8_t Board_Pin2GPIO(uint8_t pin) {
 
     switch (pin) {
+        case GPIO1:
+            return MCU_GPIO_PIN_ID_80;
+        case GPIO2:
+            return MCU_GPIO_PIN_ID_82;
+        case GPIO3:
+            return MCU_GPIO_PIN_ID_85;
+        case GPIO4:
+            return MCU_GPIO_PIN_ID_86;
         case GPIO5:
             return MCU_GPIO_PIN_ID_97;
         case GPIO6:

@@ -14,6 +14,11 @@
 
 /*==================[macros and definitions]=================================*/
 
+#define LEFT_SENSOR GPIO1
+#define RIGHT_SENSOR GPIO6
+#define LEFT_MOTOR GPIO2
+#define RIGHT_MOTOR GPIO8
+
 typedef enum {STARTED, STOPPED} state_status_type;
 
 typedef struct
@@ -80,6 +85,13 @@ TASK(InitTask)
 {
     bsp_init();
     bsp_keyboardInit();
+    LineTrackerSensor_Init(LEFT_SENSOR);
+    LineTrackerSensor_Init(RIGHT_SENSOR);
+    TerminateTask();
+}
+
+TASK(KeyboardTask) {
+    bsp_keyboard_task();
     TerminateTask();
 }
 
@@ -89,16 +101,36 @@ TASK(CheckSwitchTask)
     board_switchId_enum tec = bsp_keyboardGet();
     if (tec == BOARD_TEC_ID_1 && appState.status == STOPPED) {
         appState.status = STARTED;
-        Driver_Start(GPIO2, GPIO8);
+        Driver_Start(LEFT_MOTOR, RIGHT_MOTOR);
     } else if (tec == BOARD_TEC_ID_1 && appState.status == STARTED) {
         appState.status = STOPPED;
-        Driver_Stop(GPIO2, GPIO8);
+        Driver_Stop(LEFT_MOTOR, RIGHT_MOTOR);
     }
     TerminateTask();
 }
 
-TASK(KeyboardTask) {
-    bsp_keyboard_task();
+TASK(CheckLTSensorTask) {
+
+    bool touched;
+
+    touched = LineTrackerSensor_LineTouched(LEFT_SENSOR);
+    if (touched) {
+        Driver_TurnLeft(LEFT_MOTOR, RIGHT_MOTOR);
+        bsp_ledAction(BOARD_LED_ID_1, BOARD_LED_STATE_ON);
+    } else {
+        touched = LineTrackerSensor_LineTouched(RIGHT_SENSOR);
+        if (touched) {
+            Driver_TurnRight(LEFT_MOTOR, RIGHT_MOTOR);
+            bsp_ledAction(BOARD_LED_ID_2, BOARD_LED_STATE_ON);
+        } else {
+            if (appState.status == STARTED) {
+                Driver_GoStraightOn(LEFT_MOTOR, RIGHT_MOTOR);
+            }
+            bsp_ledAction(BOARD_LED_ID_1, BOARD_LED_STATE_OFF);
+            bsp_ledAction(BOARD_LED_ID_2, BOARD_LED_STATE_OFF);
+        }
+    }
+
     TerminateTask();
 }
 

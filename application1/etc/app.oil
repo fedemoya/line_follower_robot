@@ -68,7 +68,7 @@ OSEK OSEK {
    }
 
    TASK KeyboardTask {
-      PRIORITY = 3;
+      PRIORITY = 4;
       ACTIVATION = 1;
       STACK = 512;
       TYPE = BASIC;
@@ -88,7 +88,7 @@ OSEK OSEK {
    }
    
    TASK CheckSwitchTask {
-      PRIORITY = 5;
+      PRIORITY = 6;
       ACTIVATION = 1;
       STACK = 512;
       TYPE = BASIC;
@@ -104,6 +104,26 @@ OSEK OSEK {
       }
       ACTION = ACTIVATETASK {
          TASK = CheckSwitchTask;
+      }
+   }
+   
+   TASK CheckLTSensorTask {
+      PRIORITY = 3;
+      ACTIVATION = 1;
+      STACK = 512;
+      TYPE = BASIC;
+      SCHEDULE = FULL;
+   }
+   
+   ALARM RunCheckLTSensorTask {
+      COUNTER = HardwareCounter;
+      AUTOSTART = TRUE {
+         ALARMTIME = 0;
+         CYCLETIME = 10;
+         APPMODE = AppMode1;
+      }
+      ACTION = ACTIVATETASK {
+         TASK = CheckLTSensorTask;
       }
    }
    
