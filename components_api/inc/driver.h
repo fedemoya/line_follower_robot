@@ -35,6 +35,8 @@
 /*==================[inclusions]=============================================*/
 
 #include <stdint.h>
+#include "motor.h"
+
 
 /*==================[macros]=================================================*/
 
@@ -49,6 +51,8 @@ void Driver_Stop(uint8_t leftMotorPin, uint8_t rightMotorPin);
 void Driver_TurnRight(uint8_t leftMotorPin, uint8_t rightMotorPin);
 void Driver_TurnLeft(uint8_t leftMotorPin, uint8_t rightMotorPin);
 void Driver_GoStraightOn(uint8_t leftMotorPin, uint8_t rightMotorPin);
+MotorSpeed Driver_GetLeftMotorSpeed();
+MotorSpeed Driver_GetRightMotorSpeed();
 
 /*==================[end of file]============================================*/
 #endif /* #ifndef driver_H */

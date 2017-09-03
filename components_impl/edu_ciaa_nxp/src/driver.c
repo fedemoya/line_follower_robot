@@ -32,16 +32,15 @@
 
 /*==================[inclusions]=============================================*/
 #include "driver.h"
-#include "motor.h"
 
 /*==================[macros and definitions]=================================*/
 
 /*==================[internal functions declaration]=========================*/
 
-MotorSpeed leftMotorSpeed;
-MotorSpeed rightMotorSpeed;
-
 /*==================[internal data definition]===============================*/
+
+MotorSpeed leftMotorSpeed = SPEED_0;
+MotorSpeed rightMotorSpeed = SPEED_0;
 
 /*==================[external data definition]===============================*/
 
@@ -66,36 +65,32 @@ void Driver_Stop(uint8_t leftMotorPin, uint8_t rightMotorPin) {
 }
 
 void Driver_TurnRight(uint8_t leftMotorPin, uint8_t rightMotorPin) {
-    if (rightMotorSpeed > 0) {
-        rightMotorSpeed -= 1;
+    if (rightMotorSpeed >= 2) {
+        rightMotorSpeed -= 2;
         Motor_SetSpeed(rightMotorSpeed, rightMotorPin);
     }
 }
 
 void Driver_TurnLeft(uint8_t leftMotorPin, uint8_t rightMotorPin) {
-    if (leftMotorSpeed > 0) {
-        leftMotorSpeed -= 1;
+    if (leftMotorSpeed >= 2) {
+        leftMotorSpeed -= 2;
         Motor_SetSpeed(leftMotorSpeed, leftMotorPin);
     }
 }
 
 void Driver_GoStraightOn(uint8_t leftMotorPin, uint8_t rightMotorPin) {
+    leftMotorSpeed = SPEED_8;
+    rightMotorSpeed = SPEED_8;
+    Motor_SetSpeed(leftMotorSpeed, leftMotorPin);
+    Motor_SetSpeed(rightMotorSpeed, rightMotorPin);
+}
 
-    if (leftMotorSpeed < rightMotorSpeed) {
+MotorSpeed Driver_GetLeftMotorSpeed() {
+    return leftMotorSpeed;
+}
 
-        do {
-            leftMotorSpeed += 1;
-        } while (leftMotorSpeed < rightMotorSpeed);
-        Motor_SetSpeed(leftMotorSpeed, leftMotorPin);
-
-    } else if (rightMotorSpeed < leftMotorSpeed) {
-
-        do {
-            rightMotorSpeed += 1;
-        } while (rightMotorSpeed < leftMotorSpeed);
-        Motor_SetSpeed(rightMotorSpeed, rightMotorPin);
-
-    }
+MotorSpeed Driver_GetRightMotorSpeed() {
+    return rightMotorSpeed;
 }
 
 /*==================[end of file]============================================*/
