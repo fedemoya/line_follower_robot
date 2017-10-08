@@ -61,5 +61,8 @@ INC_FILES            += $(PROJECT_PATH)$(DS)components_api$(DS)inc
 OIL_FILES            += $(PROJECT_PATH)$(DS)application$(PASE_APP_SEL)$(DS)etc$(DS)app.oil
 
 # Modules needed for this project
-MODS ?= modules$(DS)rtos	\
-		externals$(DS)drivers
+MODS ?= modules$(DS)posix           \
+        modules$(DS)ciaak           \
+        modules$(DS)drivers         \
+        modules$(DS)rtos            \
+        modules$(DS)libs

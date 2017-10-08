@@ -65,17 +65,17 @@ void Driver_Stop(uint8_t leftMotorPin, uint8_t rightMotorPin) {
 }
 
 void Driver_TurnRight(uint8_t leftMotorPin, uint8_t rightMotorPin) {
-    if (rightMotorSpeed >= 2) {
-        rightMotorSpeed -= 2;
-        Motor_SetSpeed(rightMotorSpeed, rightMotorPin);
-    }
+    rightMotorSpeed = SPEED_0;
+    Motor_SetSpeed(rightMotorSpeed, rightMotorPin);
+    leftMotorSpeed = SPEED_8;
+    Motor_SetSpeed(leftMotorSpeed, leftMotorPin);
 }
 
 void Driver_TurnLeft(uint8_t leftMotorPin, uint8_t rightMotorPin) {
-    if (leftMotorSpeed >= 2) {
-        leftMotorSpeed -= 2;
-        Motor_SetSpeed(leftMotorSpeed, leftMotorPin);
-    }
+    leftMotorSpeed = SPEED_0;
+    Motor_SetSpeed(leftMotorSpeed, leftMotorPin);
+    rightMotorSpeed = SPEED_8;
+    Motor_SetSpeed(rightMotorSpeed, rightMotorPin);
 }
 
 void Driver_GoStraightOn(uint8_t leftMotorPin, uint8_t rightMotorPin) {
