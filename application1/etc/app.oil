@@ -119,11 +119,31 @@ OSEK OSEK {
       COUNTER = HardwareCounter;
       AUTOSTART = TRUE {
          ALARMTIME = 0;
-         CYCLETIME = 5;
+         CYCLETIME = 10;
          APPMODE = AppMode1;
       }
       ACTION = ACTIVATETASK {
          TASK = CheckLTSensorTask;
+      }
+   }
+   
+   TASK TrajectoryControlTask {
+      PRIORITY = 6;
+      ACTIVATION = 1;
+      STACK = 512;
+      TYPE = BASIC;
+      SCHEDULE = FULL;
+   }
+   
+   ALARM RunTrajectoryControlTask {
+      COUNTER = HardwareCounter;
+      AUTOSTART = TRUE {
+         ALARMTIME = 0;
+         CYCLETIME = 200;
+         APPMODE = AppMode1;
+      }
+      ACTION = ACTIVATETASK {
+         TASK = TrajectoryControlTask;
       }
    }
    

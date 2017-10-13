@@ -63,6 +63,8 @@ int8_t Board_Pin2Sct(uint8_t pin) {
     switch (pin) {
         case LED1:
             return CTOUT2;
+        case LED2:
+            return CTOUT5;
         case GPIO2:
             return CTOUT6;
         case GPIO8:
@@ -87,6 +89,8 @@ int8_t Board_Pin2GPIO(uint8_t pin) {
             return MCU_GPIO_PIN_ID_97;
         case GPIO6:
             return MCU_GPIO_PIN_ID_100;
+        case GPIO7:
+            return MCU_GPIO_PIN_ID_101;
         default:
             return -1;
     }

@@ -51,46 +51,38 @@ MotorSpeed rightMotorSpeed = SPEED_0;
 void Driver_Start(uint8_t leftMotorPin, uint8_t rightMotorPin) {
     Motor_Init(leftMotorPin);
     Motor_Init(rightMotorPin);
-    leftMotorSpeed = SPEED_8;
-    rightMotorSpeed = SPEED_8;
-    Motor_SetSpeed(leftMotorSpeed, leftMotorPin);
-    Motor_SetSpeed(rightMotorSpeed, rightMotorPin);
+    Motor_SetSpeed(SPEED_20, leftMotorPin);
+    Motor_SetSpeed(SPEED_20, rightMotorPin);
 }
 
 void Driver_Stop(uint8_t leftMotorPin, uint8_t rightMotorPin) {
-    leftMotorSpeed = SPEED_0;
-    rightMotorSpeed = SPEED_0;
-    Motor_SetSpeed(leftMotorSpeed, leftMotorPin);
-    Motor_SetSpeed(rightMotorSpeed, rightMotorPin);
+    Motor_SetSpeed(SPEED_0, leftMotorPin);
+    Motor_SetSpeed(SPEED_0, rightMotorPin);
 }
 
-void Driver_TurnRight(uint8_t leftMotorPin, uint8_t rightMotorPin) {
-    if (rightMotorSpeed >= 2) {
-        rightMotorSpeed -= 2;
-        Motor_SetSpeed(rightMotorSpeed, rightMotorPin);
-    }
+void Driver_HardTurnRight(uint8_t leftMotorPin, uint8_t rightMotorPin) {
+    Motor_SetSpeed(SPEED_0, rightMotorPin);
+    Motor_SetSpeed(SPEED_20, leftMotorPin);
 }
 
-void Driver_TurnLeft(uint8_t leftMotorPin, uint8_t rightMotorPin) {
-    if (leftMotorSpeed >= 2) {
-        leftMotorSpeed -= 2;
-        Motor_SetSpeed(leftMotorSpeed, leftMotorPin);
-    }
+void Driver_HardTurnLeft(uint8_t leftMotorPin, uint8_t rightMotorPin) {
+    Motor_SetSpeed(SPEED_0, leftMotorPin);
+    Motor_SetSpeed(SPEED_20, rightMotorPin);
+}
+
+void Driver_SoftTurnRight(uint8_t leftMotorPin, uint8_t rightMotorPin) {
+//    Motor_SetSpeed(SPEED_20, rightMotorPin);
+//    Motor_SetSpeed(SPEED_24, leftMotorPin);
+}
+
+void Driver_SoftTurnLeft(uint8_t leftMotorPin, uint8_t rightMotorPin) {
+//    Motor_SetSpeed(SPEED_20, leftMotorPin);
+//    Motor_SetSpeed(SPEED_24, rightMotorPin);
 }
 
 void Driver_GoStraightOn(uint8_t leftMotorPin, uint8_t rightMotorPin) {
-    leftMotorSpeed = SPEED_8;
-    rightMotorSpeed = SPEED_8;
-    Motor_SetSpeed(leftMotorSpeed, leftMotorPin);
-    Motor_SetSpeed(rightMotorSpeed, rightMotorPin);
-}
-
-MotorSpeed Driver_GetLeftMotorSpeed() {
-    return leftMotorSpeed;
-}
-
-MotorSpeed Driver_GetRightMotorSpeed() {
-    return rightMotorSpeed;
+//    Motor_SetSpeed(SPEED_20, leftMotorPin);
+//    Motor_SetSpeed(SPEED_20, rightMotorPin);
 }
 
 /*==================[end of file]============================================*/
